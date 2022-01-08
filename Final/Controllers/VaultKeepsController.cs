@@ -28,6 +28,7 @@ namespace Final.Controllers
       {
         Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
         newVaultKeep.Creator = userInfo;
+        newVaultKeep.CreatorId = userInfo.Id;
         VaultKeep vaultKeep = _vks.Create(newVaultKeep);
         return Ok(vaultKeep);
       }
