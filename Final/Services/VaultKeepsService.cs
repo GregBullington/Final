@@ -1,3 +1,4 @@
+using System;
 using Final.Models;
 using Final.Repositories;
 
@@ -16,15 +17,26 @@ namespace Final.Services
       return _repo.Create(newVaultKeep);
     }
 
-    // internal void Remove(int id, string userId)
-    // {
-    //   VaultKeep vaultKeep = GetById(id);
-    //   if (vaultKeep.CreatorId != userId)
-    //   {
-    //     throw new Exception("You cannot Delete this Vault Keep!");
-    //   }
-    //   _repo.Remove(id);
-    // }
+    internal VaultKeep GetById(int id)
+    {
+      VaultKeep vaultKeep = _repo.GetById(id);
+      if (vaultKeep == null)
+      {
+        throw new Exception("Invalid keep Id");
+      }
+      return vaultKeep;
+    }
+
+    internal void Remove(int id, string userId)
+    {
+      VaultKeep vaultKeep = GetById(id);
+      if (vaultKeep.CreatorId != userId)
+      {
+        throw new Exception("You cannot Delete this Vault Keep!");
+      }
+      _repo.Remove(id);
+    }
+
 
   }
 }

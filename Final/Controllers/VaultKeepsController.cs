@@ -38,22 +38,22 @@ namespace Final.Controllers
       }
     }
 
-    // [HttpDelete("{id}")]
-    // [Authorize]
+    [HttpDelete("{id}")]
+    [Authorize]
 
-    // public async Task<ActionResult<string>> Remove(int id)
-    // {
-    //   try
-    //   {
-    //     Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
-    //     _vks.Remove(id, userInfo.Id);
-    //     return Ok("Vault Keep has been Deleted!");
-    //   }
-    //   catch (Exception e)
-    //   {
-    //     return BadRequest(e.Message);
-    //   }
-    // }
+    public async Task<ActionResult<string>> Remove(int id)
+    {
+      try
+      {
+        Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
+        _vks.Remove(id, userInfo.Id);
+        return Ok("Vault Keep has been Deleted!");
+      }
+      catch (Exception e)
+      {
+        return BadRequest(e.Message);
+      }
+    }
 
 
 
