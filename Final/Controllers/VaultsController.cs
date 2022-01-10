@@ -54,6 +54,8 @@ namespace Final.Controllers
       }
     }
 
+    // REVIEW throws a strange error but doesnt fail in Auth strange one in Invalid Auth also
+
     [HttpPut("{id}")]
     [Authorize]
 
@@ -89,6 +91,8 @@ namespace Final.Controllers
         return BadRequest(e.Message);
       }
     }
+
+    // REVIEW this one fails for some reason under NoAuth in tests
 
     [HttpGet("{id}/keeps")]
     public ActionResult<Vault> GetKeepsByVaultId(int id)
