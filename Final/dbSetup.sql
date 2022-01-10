@@ -38,3 +38,9 @@ CREATE TABLE IF NOT EXISTS vaultKeeps(
   FOREIGN KEY (vaultId) REFERENCES vaults(id) ON DELETE CASCADE,
   FOREIGN KEY (keepId) REFERENCES keeps(id) ON DELETE CASCADE
 ) default charset utf8 COMMENT '';
+
+CREATE TABLE IF NOT EXISTS profiles(
+  id VARCHAR(255) NOT NULL primary key COMMENT 'primary key',
+  name varchar(255) COMMENT 'User Name',
+  picture varchar(255) COMMENT 'User Picture'
+) default charset utf8 COMMENT '';

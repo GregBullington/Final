@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Final.Models;
 using Final.Repositories;
 
@@ -14,7 +15,9 @@ namespace Final.Services
     }
     internal List<Vault> GetByCreatorId(string id)
     {
-      return _repo.GetByCreatorId(id);
+      List<Vault> vaults = _repo.GetByCreatorId(id);
+      List<Vault> filteredVaults = vaults.Where(v => v.IsPrivate == false).ToList();
+      return filteredVaults;
     }
 
     internal Vault Create(Vault newVault)
@@ -25,7 +28,7 @@ namespace Final.Services
     internal Vault GetById(int id)
     {
       Vault vault = _repo.GetById(id);
-      if (vault == null)
+      if (vault == null || vault.IsPrivate)
       {
         throw new Exception("Invalid vault Id");
       }
@@ -35,14 +38,14 @@ namespace Final.Services
     internal Vault Edit(Vault editVault, string userId)
     {
       Vault original = GetById(editVault.Id);
-      if (editVault.CreatorId != userId)
+      if (original.CreatorId != editVault.CreatorId)
       {
         throw new Exception("You cannot edit this Vault!");
       }
       original.CreatorId = editVault.CreatorId != null ? editVault.CreatorId : original.CreatorId;
       original.Name = editVault.Name != null ? editVault.Name : original.Name;
       original.Description = editVault.Description != null ? editVault.Description : original.Description;
-      original.IsPrivate = editVault.IsPrivate != null ? editVault.IsPrivate : original.IsPrivate;
+      original.IsPrivate = editVault.IsPrivate;
       original.Img = editVault.Img != null ? editVault.Img : original.Img;
 
       return _repo.Edit(editVault);

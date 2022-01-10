@@ -21,8 +21,7 @@ namespace Final.Repositories
       VALUES
       (@CreatorId, @VaultId, @KeepId);
       SELECT LAST_INSERT_ID();";
-      int id = _db.ExecuteScalar<int>(sql, newVaultKeep);
-      newVaultKeep.Id = id;
+      newVaultKeep.Id = _db.ExecuteScalar<int>(sql, newVaultKeep);
       return newVaultKeep;
     }
 

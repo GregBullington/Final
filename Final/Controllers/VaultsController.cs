@@ -30,7 +30,6 @@ namespace Final.Controllers
       {
         Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
         newVault.CreatorId = userInfo.Id;
-        newVault.IsPrivate = false;
         Vault vault = _vs.Create(newVault);
         vault.Creator = userInfo;
         return Ok(vault);
@@ -42,6 +41,7 @@ namespace Final.Controllers
     }
 
     [HttpGet("{id}")]
+
     public ActionResult<Vault> GetById(int id)
     {
       try
@@ -95,7 +95,8 @@ namespace Final.Controllers
     {
       try
       {
-        return Ok(_ks.GetKeepsByVaultId(id));
+        Vault vault = _vs.GetById(id);
+        return Ok(_ks.GetKeepsByVaultId(vault.Id));
       }
       catch (Exception e)
       {

@@ -40,7 +40,7 @@ namespace Final.Services
     internal Keep Edit(Keep editKeep, string userId)
     {
       Keep original = GetById(editKeep.Id);
-      if (editKeep.CreatorId != userId)
+      if (original.CreatorId != editKeep.CreatorId)
       {
         throw new Exception("You cannot edit this Keep!");
       }
