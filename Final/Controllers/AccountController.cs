@@ -38,6 +38,23 @@ namespace Final.Controllers
       }
     }
 
+    [HttpPut]
+    [Authorize]
+
+    public async Task<ActionResult<Account>> Edit([FromBody] Account editedAccount)
+    {
+      try
+      {
+        Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
+        Account account = _accountService.Edit(editedAccount, userInfo.Id);
+        return Ok(editedAccount);
+      }
+      catch (Exception e)
+      {
+        return BadRequest(e.Message);
+      }
+    }
+
     [HttpGet("vaults")]
     [Authorize]
     public async Task<ActionResult<Account>> GetVaults()

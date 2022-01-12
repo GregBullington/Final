@@ -25,4 +25,4 @@ class ProfilesService {
   }
 }
 
-export const profilesService = new ProfilesService
+export const profilesService = new ProfilesService()

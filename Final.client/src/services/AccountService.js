@@ -22,6 +22,17 @@ class AccountService {
       Pop.toast("Could not get Profile!", 'error')
     }
   }
+
+  async edit(update) {
+    try {
+      const res = await api.put('/account', update)
+      AppState.account = res.data
+    } catch (error) {
+      logger.error(error)
+      Pop.toast("Could not update!", 'error')
+    }
+
+  }
 }
 
 export const accountService = new AccountService()

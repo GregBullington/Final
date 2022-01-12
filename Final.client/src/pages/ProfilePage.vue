@@ -15,6 +15,8 @@
         <h2>
           Vaults<button
             class="btn mdi mdi-plus mdi-24px text-secondary"
+            data-bs-toggle="modal"
+            data-bs-target="#createVault"
           ></button>
         </h2>
         <div class="row">
@@ -29,6 +31,8 @@
         <h2>
           Keeps<button
             class="btn mdi mdi-plus mdi-24px text-secondary"
+            data-bs-toggle="modal"
+            data-bs-target="#createKeep"
           ></button>
         </h2>
         <div class="row">
@@ -39,6 +43,16 @@
       </div>
     </div>
   </div>
+  <button
+    v-if="activeProfile.id === user.id"
+    class="mdi mdi-account floating-btn-right"
+    data-bs-toggle="offcanvas"
+    data-bs-target="#offcanvasRight"
+    aria-controls="offcanvasRight"
+  ></button>
+  <AccountOffCanvas />
+  <CreateKeepModal />
+  <CreateVaultModal />
 </template>
 
 <script>
@@ -62,6 +76,7 @@ export default {
       }
     })
     return {
+      user: computed(() => AppState.user),
       activeProfile: computed(() => AppState.activeProfile),
       profileKeeps: computed(() => AppState.profileKeeps),
       profileVaults: computed(() => AppState.profileVaults)

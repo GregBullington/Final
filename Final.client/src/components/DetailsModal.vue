@@ -101,7 +101,6 @@
                 "
               >
                 <img
-                  v-if="keep.creator.picture"
                   @click="setActiveProfile(keep.creatorId)"
                   class="prof-img rounded action"
                   :src="keep.creator.picture"
