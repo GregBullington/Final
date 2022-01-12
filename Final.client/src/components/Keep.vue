@@ -1,15 +1,19 @@
 <template>
-  <div class="row">
-    <div
-      class="col hero-container card elevation-4 selectable grow p-0 mx-3 mb-4"
-    >
+  <div
+    class="row"
+    @click="setActive"
+    data-bs-toggle="modal"
+    data-bs-target="#detailsModal"
+  >
+    <div class="col hero-container card elevation-4 selectable p-0 mx-3 mb-4">
       <img class="img-container" :src="keep.img" alt="keep Image" />
       <div class="card desc-bg bottom-left det-font">
         <h5 class="mt-2">{{ keep.name }}</h5>
         <img
+          v-if="keep.creator.picture"
           class="rounded-pill card-img-contain bottom-right"
           :src="keep.creator.picture"
-          alt=""
+          alt="img"
         />
       </div>
     </div>
@@ -24,9 +28,19 @@ export default {
   props: {
     keep: { type: Object, required: true }
   },
-  setup() {
+  setup(props) {
     return {
-      allKeeps: computed(() => AppState.allKeeps)
+      allKeeps: computed(() => AppState.allKeeps),
+
+      setActive() {
+        try {
+          AppState.activeKeep = props.keep
+        } catch (error) {
+          logger.error(error)
+          Modal.getOrCreateInstance(document.getElementById("detailsModal")).hide()
+          Pop.toast("Something went wrong setting active keep!", 'error')
+        }
+      },
 
     }
   }

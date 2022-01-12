@@ -5,6 +5,7 @@
   <main>
     <router-view />
   </main>
+  <DetailsModal />
   <footer></footer>
 </template>
 

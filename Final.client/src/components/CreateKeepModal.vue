@@ -8,7 +8,7 @@
   >
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
-        <div class="modal-header bg-white">
+        <div class="modal-header bg-primary">
           <h3 class="modal-title" id="exampleModalToggleLabel">New Keep</h3>
           <button
             type="button"
@@ -33,7 +33,7 @@
               </div>
             </div>
             <div class="row">
-              <div class="col">
+              <div class="col mt-3">
                 <label for="imgUrl" class="form-label">Img Url</label>
                 <input
                   type="text"

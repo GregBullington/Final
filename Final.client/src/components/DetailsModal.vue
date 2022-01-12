@@ -1,64 +1,189 @@
 <template>
-  <div
-    class="modal fade modal-dialog-bg"
-    id="detailsModal"
-    aria-hidden="true"
-    aria-labelledby="detailsModal"
-    tabindex="-1"
-  >
-    <div class="modal-dialog modal-dialog-centered modal-xl">
-      <div class="modal-content">
-        <div class="modal-body p-0">
-          <div class="row">
-            <div class="col-md-6">
-              <img
-                class="details-img-container"
-                :src="activeKeep.img"
-                alt="RecipeImage"
-              />
+  <Modal id="detailsModal" size="modal-xl">
+    <template #modal-body>
+      <div class="modal-body container-fluid p-2" v-if="keep.id">
+        <button
+          type="button"
+          class="btn-close top-right"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+        <div class="row">
+          <div class="col-lg-6">
+            <img
+              class="d-block w-100 max-height"
+              :src="keep.img"
+              alt="RecipeImage"
+            />
+          </div>
+          <div class="col-lg-6 d-flex flex-column">
+            <div class="row">
+              <ul class="list-inline text-center">
+                <li
+                  class="list-inline-item mdi mdi-eye mdi-24px text-secondary"
+                ></li>
+                <span class="text-dark me-3">{{ keep.views }}</span>
+                <li
+                  class="
+                    list-inline-item
+                    mdi mdi-alpha-k-box-outline mdi-24px
+                    text-secondary
+                  "
+                ></li>
+                <span class="text-dark me-3">{{ keep.keeps }}</span>
+
+                <li
+                  class="
+                    list-inline-item
+                    mdi mdi-share-variant mdi-24px
+                    text-secondary
+                  "
+                ></li>
+                <span class="text-dark">{{ keep.shares }}</span>
+              </ul>
             </div>
-            <div class="col-md-6 container-fluid">
-              <div class="row">
-                <div class="col-2 ms-auto text-end m-2">
-                  <button
-                    type="button"
-                    class="btn-close"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                  ></button>
-                </div>
+            <div class="row">
+              <div class="col text-center">
+                <h1 class="text-dark det-font fs-1 px-4 mb-4">
+                  {{ keep.name }}
+                </h1>
               </div>
-              <div class="row">
-                <div class="col d-inline-flex">
-                  <h1 class="text-primary det-font fs-1 px-4">
-                    {{ activeKeep.name }}
-                  </h1>
-                </div>
+            </div>
+            <div class="row justify-content-center">
+              <div class="col-md-10">
+                <p>{{ keep.description }}</p>
+                <hr />
+              </div>
+            </div>
+            <div class="row mt-auto">
+              <div
+                class="col-4 align-items-center justify-content-center"
+                v-if="$route.name != 'Vault'"
+              >
+                <button class="btn btn-outline-secondary p-1">
+                  Add to Vault
+                </button>
+              </div>
+              <div
+                class="col-4 align-items-center justify-content-center"
+                v-else
+              >
+                <button
+                  class="btn btn-outline-danger p-1"
+                  @click="removeFromVault(keep.vaultKeepId)"
+                >
+                  Remove
+                </button>
+              </div>
+              <div
+                class="
+                  col-4
+                  d-flex
+                  align-items-center
+                  justify-content-center
+                  p-0
+                "
+              >
+                <button
+                  v-if="user.id !== keep.creatorId && $route.name == 'Profile'"
+                  class="btn mdi mdi-delete-outline text-danger mdi-24px p-0"
+                  @click="deleteKeep(keep.id)"
+                ></button>
+              </div>
+              <div
+                class="
+                  col-4
+                  d-flex
+                  align-items-center
+                  justify-content-center
+                  flex-wrap
+                  p-0
+                "
+              >
+                <img
+                  v-if="keep.creator.picture"
+                  @click="setActiveProfile(keep.creatorId)"
+                  class="prof-img rounded action"
+                  :src="keep.creator.picture"
+                  alt="img"
+                />
+
+                <span id="creator-name" class="mx-2">{{
+                  keep.creator.name
+                }}</span>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
+    </template>
+  </Modal>
 </template>
 
 
 <script>
 import { computed, reactive } from "@vue/reactivity"
 import { AppState } from "../AppState"
-import { keepsService } from "../services/KeepsService"
-import Pop from "../utils/Pop"
-import { onMounted } from "@vue/runtime-core"
+import { useRouter } from "vue-router"
+import { Modal } from "bootstrap"
 import { logger } from "../utils/Logger"
+import Pop from "../utils/Pop"
+import { profilesService } from "../services/ProfilesService"
+import { vaultKeepsService } from "../services/VaultKeepsService"
+import { keepsService } from "../services/KeepsService"
+
+
 export default {
   setup() {
+    const router = useRouter()
     const state = reactive({
       editable: {},
     });
     return {
       state,
-      activeKeep: computed(() => AppState.activeKeep),
+      user: computed(() => AppState.user),
+      keep: computed(() => AppState.activeKeep),
+      async setActiveProfile(id) {
+        try {
+          Modal.getOrCreateInstance(document.getElementById("detailsModal")).hide()
+          await profilesService.setActiveProfile(id)
+          router.push({
+            name: "Profile",
+            params: { id: AppState.activeProfile.id }
+          })
+        } catch (error) {
+          logger.error(error)
+          Modal.getOrCreateInstance(document.getElementById("detailsModal")).hide()
+          Pop.toast("Something went wrong with active profile!", 'error')
+        }
+      },
+
+      async removeFromVault(id) {
+        try {
+          if (await Pop.confirm('Remove from Vault?')) {
+            Modal.getOrCreateInstance(document.getElementById("detailsModal")).hide()
+            await vaultKeepsService.removeFromVault(id)
+          }
+        } catch (error) {
+          logger.error(error)
+          Modal.getOrCreateInstance(document.getElementById("detailsModal")).hide()
+          Pop.toast("Something went wrong removing!", 'error')
+        }
+      },
+
+      async deleteKeep(id) {
+        try {
+          if (await Pop.confirm('Delete Keep?')) {
+            Modal.getOrCreateInstance(document.getElementById("detailsModal")).hide()
+            await keepsService.deleteKeep(id)
+          }
+        } catch (error) {
+          logger.error(error)
+          Modal.getOrCreateInstance(document.getElementById("detailsModal")).hide()
+          Pop.toast("Something went wrong deleting!", 'error')
+        }
+      }
+
 
     }
   }
@@ -67,24 +192,18 @@ export default {
 
 
 <style lang="scss" scoped>
-.details-img-container {
-  max-height: 500px;
-  max-width: 600px;
+.prof-img {
+  height: 25px;
+  width: 25px;
+}
+.max-height {
+  max-height: 75vh;
   object-fit: cover;
 }
-.pill-bg {
-  color: white;
-  background: rgba(49, 49, 49, 0.658);
-  padding-inline: 20px;
-  border-radius: 15px;
-}
-#addStep {
-  background: none;
-  outline: none;
-  box-shadow: none;
-  border: none;
-}
-.modal-dialog-bg {
-  backdrop-filter: blur(10px);
+
+@media screen and (max-width: 450px) {
+  #creator-name {
+    display: none;
+  }
 }
 </style>

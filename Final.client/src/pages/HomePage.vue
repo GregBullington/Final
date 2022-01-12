@@ -1,14 +1,7 @@
 <template>
   <div class="container-fluid p-5">
     <div class="row justify-content-around">
-      <div
-        v-for="k in allKeeps"
-        :key="k.id"
-        class="col-md-3"
-        @click="setActive(k)"
-        data-bs-toggle="modal"
-        data-bs-target="#detailsModal"
-      >
+      <div v-for="k in allKeeps" :key="k.id" class="col-md-3">
         <Keep :keep="k" />
       </div>
     </div>
@@ -19,7 +12,6 @@
       data-bs-target="#createKeep"
     ></button>
   </div>
-  <DetailsModal />
   <CreateKeepModal />
 </template>
 
@@ -36,9 +28,9 @@ export default {
     const search = ref('')
     onMounted(async () => {
       try {
-        await keepsService.getAllKeeps('api/keeps')
+        await keepsService.getAllKeeps()
       } catch (error) {
-        logger.log(error)
+        logger.error(error)
         Pop.toast("Something went wrong!", 'error')
       }
     })
@@ -48,23 +40,16 @@ export default {
       allKeeps: computed(() => AppState.allKeeps),
       search,
 
-      async searchKeeps() {
-        try {
-          logger.log("searching")
-          await keepsService.getAllKeeps('api/recipes/search?q=' + search.value)
-          search.value = ''
-        } catch (error) {
-          logger.error(error)
-        }
-      },
-      async setActive(keep) {
-        try {
-          AppState.activeKeep = keep
-        } catch (error) {
-          logger.error(error)
-          Pop.toast("Something went wrong setting active keep!", 'error')
-        }
-      },
+      // async searchKeeps() {
+      //   try {
+      //     logger.log("searching")
+      //     await keepsService.getAllKeeps(search.value)
+      //     search.value = ''
+      //   } catch (error) {
+      //     logger.error(error)
+      //   }
+      // }
+
     }
   }
 }

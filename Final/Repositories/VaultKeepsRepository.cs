@@ -27,8 +27,9 @@ namespace Final.Repositories
 
     internal void Remove(int id)
     {
-      string sql =
-      @"DELETE FROM vaultKeeps WHERE id = @id LIMIT 1;";
+      string sql = @"
+      DELETE FROM vaultKeeps 
+      WHERE id = @id;";
       int rows = _db.Execute(sql, new { id });
       if (rows <= 0)
       {
@@ -40,7 +41,8 @@ namespace Final.Repositories
     internal VaultKeep GetById(int id)
     {
       string sql = @"
-      SELECT FROM vaultKeeps WHERE id = @id LIMIT 1;";
+      SELECT FROM vaultKeeps 
+      WHERE id = @id LIMIT 1;";
       return _db.QueryFirstOrDefault<VaultKeep>(sql, new { id });
     }
 

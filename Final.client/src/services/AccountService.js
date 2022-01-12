@@ -17,7 +17,6 @@ class AccountService {
     try {
       const res = await api.get(`api/profiles/${account.id}`)
       AppState.myProfile = res.data
-      logger.log(res.data)
     } catch (error) {
       logger.error(error)
       Pop.toast("Could not get Profile!", 'error')
