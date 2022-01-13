@@ -4,9 +4,9 @@
       <div class="col-md-3">
         <img class="rounded mb-5" :src="activeProfile.picture" alt="" />
       </div>
-      <div class="col-9">
+      <div class="col-lg-9">
         <h1 class="mb-4">{{ activeProfile.name }}</h1>
-        <h3>Vaults: {{ profileVaults.length }}</h3>
+        <h3 class="">Vaults: {{ profileVaults.length }}</h3>
         <h3 class="mb-4">Keeps: {{ profileKeeps.length }}</h3>
       </div>
     </div>

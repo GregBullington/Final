@@ -74,9 +74,4 @@ export default {
     }
   }
 }
-
-body {
-  margin: 0;
-  padding: 1rem;
-}
 </style>

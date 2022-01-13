@@ -23,6 +23,8 @@
   </div>
 </template>
 
+// REVIEW private vaults dont quite do what they are supposed to.
+
 
 <script>
 import { computed } from "@vue/reactivity"

@@ -15,7 +15,6 @@
 
 
 <script>
-import { computed } from "@vue/reactivity"
 import { AppState } from "../AppState"
 import { logger } from "../utils/Logger"
 import Pop from "../utils/Pop"

@@ -63,7 +63,7 @@ namespace Final.Services
 
     internal void Remove(int id, string userId)
     {
-      Vault vault = GetById(id);
+      Vault vault = GetById(id, userId);
       if (vault.CreatorId != userId)
       {
         throw new Exception("You cannot Delete this Vault!");

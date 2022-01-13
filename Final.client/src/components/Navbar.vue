@@ -2,7 +2,12 @@
   <nav class="navbar navbar-expand-lg navbar-dark bg-primary px-3">
     <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
       <div class="d-flex flex-column align-items-center">
-        <img alt="logo" src="../assets/img/Keepr-logo.png" height="45" />
+        <img
+          title="Home"
+          alt="logo"
+          src="../assets/img/Keepr-logo.png"
+          height="45"
+        />
       </div>
     </router-link>
     <button
@@ -43,7 +48,7 @@
           Login
         </button>
 
-        <div class="dropdown my-2 my-lg-0" v-else>
+        <div class="dropdown my-2 my-lg-0" v-else title="Manage Account">
           <div
             class="dropdown-toggle selectable bg-grey rounded"
             data-bs-toggle="dropdown"

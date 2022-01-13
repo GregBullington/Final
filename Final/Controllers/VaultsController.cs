@@ -43,7 +43,7 @@ namespace Final.Controllers
     [HttpGet("{id}")]
 
 
-    public async Task<ActionResult<Vault>> GetByIdAsyncById(int id)
+    public async Task<ActionResult<Vault>> GetById(int id)
     {
       try
       {
@@ -80,7 +80,7 @@ namespace Final.Controllers
     [HttpDelete("{id}")]
     [Authorize]
 
-    public async Task<ActionResult<string>> RemoveAsync(int id)
+    public async Task<ActionResult<string>> Remove(int id)
     {
       try
       {
@@ -95,11 +95,12 @@ namespace Final.Controllers
     }
 
     [HttpGet("{id}/keeps")]
-    public ActionResult<Vault> GetKeepsByVaultId(int id)
+    public async Task<ActionResult<Vault>> GetKeepsByVaultId(int id)
     {
       try
       {
-        Vault vault = _vs.GetById(id);
+        Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
+        Vault vault = _vs.GetById(id, userInfo?.Id);
         return Ok(_ks.GetKeepsByVaultId(vault.Id));
       }
       catch (Exception e)
