@@ -100,17 +100,16 @@ namespace Final.Repositories
       }
     }
 
-    //  FIXME creator needs to be populated instead of vault
     internal List<VaultKeepViewModel> GetKeepsByVaultId(int id)
     {
       string sql = @"
       SELECT 
-        k.*,
-        vk.id AS vaultKeepId,
+        a.*,
         k.*
+        vk.id AS vaultKeepId,
       FROM vaultKeeps vk
       JOIN keeps k ON k.id = vk.keepId
-      JOIN vaults v ON v.id = vk.vaultId
+      JOIN accounts a ON a.id = vk.creatorId
       Where vk.vaultId = @id
       ;";
       return _db.Query<VaultKeepViewModel, Profile, VaultKeepViewModel>(sql, (vaultKeep, prof) =>

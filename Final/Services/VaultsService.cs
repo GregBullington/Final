@@ -13,6 +13,12 @@ namespace Final.Services
     {
       _repo = repo;
     }
+
+    internal List<Vault> GetByAccountId(string id)
+    {
+      List<Vault> vaults = _repo.GetByCreatorId(id);
+      return vaults;
+    }
     internal List<Vault> GetByCreatorId(string id)
     {
       List<Vault> vaults = _repo.GetByCreatorId(id);
@@ -25,13 +31,16 @@ namespace Final.Services
       return _repo.Create(newVault);
     }
 
-    internal Vault GetById(int id)
+    internal Vault GetById(int id, string userId = null)
     {
-      // REVIEW check if the request is from the creator and if not and it is private return exception 
       Vault vault = _repo.GetById(id);
       if (vault == null)
       {
-        throw new Exception("Invalid vault Id");
+        throw new Exception("Invalid Vault Id");
+      }
+      if (vault.IsPrivate && userId != vault.CreatorId)
+      {
+        throw new Exception("Invalid Request!");
       }
       return vault;
     }

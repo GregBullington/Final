@@ -7,13 +7,20 @@ namespace Final.Services
   public class VaultKeepsService
   {
     private readonly VaultKeepsRepository _repo;
-    public VaultKeepsService(VaultKeepsRepository repo)
+    private readonly VaultsRepository _vrepo;
+    public VaultKeepsService(VaultKeepsRepository repo, VaultsRepository vrepo)
     {
       _repo = repo;
+      _vrepo = vrepo;
     }
 
     internal VaultKeep Create(VaultKeep newVaultKeep)
     {
+      Vault vault = _vrepo.GetById(newVaultKeep.VaultId);
+      if (vault.CreatorId != newVaultKeep.CreatorId)
+      {
+        throw new Exception("Invalid Request!");
+      }
       return _repo.Create(newVaultKeep);
     }
 

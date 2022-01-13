@@ -62,7 +62,7 @@ namespace Final.Controllers
       try
       {
         Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
-        List<Vault> vaults = _vs.GetByCreatorId(userInfo.Id);
+        List<Vault> vaults = _vs.GetByAccountId(userInfo.Id);
         return Ok(vaults);
       }
       catch (Exception e)

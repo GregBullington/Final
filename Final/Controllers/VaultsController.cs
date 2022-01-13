@@ -43,12 +43,13 @@ namespace Final.Controllers
     [HttpGet("{id}")]
 
 
-    public ActionResult<Vault> GetById(int id)
+    public async Task<ActionResult<Vault>> GetByIdAsyncetById(int id)
     {
       try
       {
-        // REVIEW Get user info if it is present
-        return Ok(_vs.GetById(id));
+        Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
+        Vault vault = _vs.GetById(id, userInfo?.Id);
+        return Ok(vault);
       }
       catch (Exception e)
       {
@@ -56,7 +57,6 @@ namespace Final.Controllers
       }
     }
 
-    // REVIEW throws a strange error but doesnt fail in Auth strange one in Invalid Auth also
 
     [HttpPut("{id}")]
     [Authorize]
@@ -93,8 +93,6 @@ namespace Final.Controllers
         return BadRequest(e.Message);
       }
     }
-
-    // REVIEW this one fails for some reason under NoAuth in tests
 
     [HttpGet("{id}/keeps")]
     public ActionResult<Vault> GetKeepsByVaultId(int id)

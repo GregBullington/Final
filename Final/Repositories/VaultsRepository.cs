@@ -14,6 +14,7 @@ namespace Final.Repositories
     {
       _db = db;
     }
+
     internal List<Vault> GetByCreatorId(string id)
     {
       string sql = @"
@@ -27,7 +28,7 @@ namespace Final.Repositories
       {
         vault.Creator = prof;
         return vault;
-      }, new { id }).ToList();
+      }, new { id }, splitOn: "id").ToList();
     }
 
     internal Vault Create(Vault newVault)
@@ -57,7 +58,7 @@ namespace Final.Repositories
       {
         vault.Creator = prof;
         return vault;
-      }, new { id }).FirstOrDefault();
+      }, new { id }, splitOn: "id").FirstOrDefault();
     }
 
 
