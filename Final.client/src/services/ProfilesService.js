@@ -18,11 +18,11 @@ class ProfilesService {
     AppState.profileVaults = res.data
   }
 
-  async getVaultKeeps(id) {
-    const res = await api.get(`api/vaults/${id}/keeps`)
-    AppState.vaultKeeps = res.data
-    logger.log(res.data)
+  async getMyProfileVaults(id) {
+    const res = await api.get(`api/profiles/${id}/vaults`)
+    AppState.myProfileVaults = res.data
   }
+
 }
 
 export const profilesService = new ProfilesService()

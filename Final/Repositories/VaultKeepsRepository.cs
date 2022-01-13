@@ -41,7 +41,7 @@ namespace Final.Repositories
     internal VaultKeep GetById(int id)
     {
       string sql = @"
-      SELECT FROM vaultKeeps 
+      SELECT * FROM vaultKeeps 
       WHERE id = @id LIMIT 1;";
       return _db.QueryFirstOrDefault<VaultKeep>(sql, new { id });
     }

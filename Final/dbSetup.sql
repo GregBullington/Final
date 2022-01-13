@@ -44,3 +44,7 @@ CREATE TABLE IF NOT EXISTS profiles(
   name varchar(255) COMMENT 'User Name',
   picture varchar(255) COMMENT 'User Picture'
 ) default charset utf8 COMMENT '';
+
+
+SELECT * FROM vaultKeeps 
+      WHERE id = 25 LIMIT 1

@@ -60,9 +60,31 @@
                 class="col-4 align-items-center justify-content-center"
                 v-if="$route.name != 'Vault'"
               >
-                <button class="btn btn-outline-secondary p-1">
-                  Add to Vault
-                </button>
+                <div class="dropdown mx-4 my-2" v-if="user.isAuthenticated">
+                  <button
+                    class="btn btn-secondary dropdown-toggle"
+                    type="button"
+                    id="dropdownMenuButton1"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                    required
+                  >
+                    {{ vault }}
+                  </button>
+                  <ul
+                    class="dropdown-menu"
+                    aria-labelledby="dropdownMenuButton1"
+                  >
+                    <li v-for="v in profileVaults" :key="v.id">
+                      <div
+                        class="dropdown-item selectable"
+                        @click="addToVault(keep.id, v.id)"
+                      >
+                        {{ v.name }}
+                      </div>
+                    </li>
+                  </ul>
+                </div>
               </div>
               <div
                 class="col-4 align-items-center justify-content-center"
@@ -121,7 +143,7 @@
 
 
 <script>
-import { computed, reactive } from "@vue/reactivity"
+import { computed, reactive, ref } from "@vue/reactivity"
 import { AppState } from "../AppState"
 import { useRouter } from "vue-router"
 import { Modal } from "bootstrap"
@@ -130,16 +152,20 @@ import Pop from "../utils/Pop"
 import { profilesService } from "../services/ProfilesService"
 import { vaultKeepsService } from "../services/VaultKeepsService"
 import { keepsService } from "../services/KeepsService"
+import { vaultsService } from "../services/VaultsService"
 
 
 export default {
   setup() {
+    const vault = ref('Add to Vault')
     const router = useRouter()
     const state = reactive({
       editable: {},
     });
     return {
+      vault,
       state,
+      profileVaults: computed(() => AppState.myProfileVaults),
       user: computed(() => AppState.user),
       keep: computed(() => AppState.activeKeep),
       async setActiveProfile(id) {
@@ -176,6 +202,17 @@ export default {
             Modal.getOrCreateInstance(document.getElementById("detailsModal")).hide()
             await keepsService.deleteKeep(id)
           }
+        } catch (error) {
+          logger.error(error)
+          Modal.getOrCreateInstance(document.getElementById("detailsModal")).hide()
+          Pop.toast("Something went wrong deleting!", 'error')
+        }
+      },
+
+      async addToVault(keepId, vaultId) {
+        try {
+          Modal.getOrCreateInstance(document.getElementById("detailsModal")).hide()
+          await vaultKeepsService.addToVault(keepId, vaultId)
         } catch (error) {
           logger.error(error)
           Modal.getOrCreateInstance(document.getElementById("detailsModal")).hide()

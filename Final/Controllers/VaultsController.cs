@@ -42,10 +42,12 @@ namespace Final.Controllers
 
     [HttpGet("{id}")]
 
+
     public ActionResult<Vault> GetById(int id)
     {
       try
       {
+        // REVIEW Get user info if it is present
         return Ok(_vs.GetById(id));
       }
       catch (Exception e)

@@ -8,6 +8,11 @@ class VaultKeepsService {
     AppState.vaultKeeps = AppState.vaultKeeps.filter(k => k.id !== id)
   }
 
+  async addToVault(keepId, vaultId) {
+    const res = await api.post('api/vaultkeeps', { keepId: keepId, vaultId: vaultId })
+    logger.log(res.data)
+  }
+
 }
 
 export const vaultKeepsService = new VaultKeepsService()

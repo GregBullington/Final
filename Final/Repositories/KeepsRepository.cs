@@ -100,11 +100,12 @@ namespace Final.Repositories
       }
     }
 
+    //  FIXME creator needs to be populated instead of vault
     internal List<VaultKeepViewModel> GetKeepsByVaultId(int id)
     {
       string sql = @"
       SELECT 
-        v.*,
+        k.*,
         vk.id AS vaultKeepId,
         k.*
       FROM vaultKeeps vk

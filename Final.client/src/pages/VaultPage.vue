@@ -35,7 +35,8 @@ export default {
     const route = useRoute()
     onMounted(async () => {
       try {
-        await profilesService.getVaultKeeps(route.params.id)
+        await vaultsService.getVaultById(route.params.id)
+        await vaultsService.getVaultKeeps(route.params.id)
       } catch (error) {
         logger.error(error)
         Pop.toast("Something went wrong!", 'error')

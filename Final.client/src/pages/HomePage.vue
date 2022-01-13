@@ -18,10 +18,11 @@
 <script>
 import { computed, ref } from "@vue/reactivity"
 import { AppState } from "../AppState"
-import { onMounted } from "@vue/runtime-core"
+import { onMounted, watchEffect } from "@vue/runtime-core"
 import Pop from "../utils/Pop"
 import { keepsService } from "../services/KeepsService"
 import { logger } from "../utils/Logger"
+import { profilesService } from "../services/ProfilesService"
 export default {
   name: 'Home',
   setup() {

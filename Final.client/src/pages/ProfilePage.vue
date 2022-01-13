@@ -44,7 +44,7 @@
     </div>
   </div>
   <button
-    v-if="activeProfile.id === user.id"
+    v-if="myProfile.id === activeProfile.id"
     class="mdi mdi-account floating-btn-right"
     data-bs-toggle="offcanvas"
     data-bs-target="#offcanvasRight"
@@ -68,6 +68,7 @@ export default {
     const route = useRoute()
     onMounted(async () => {
       try {
+        await profilesService.setActiveProfile(route.params.id)
         await profilesService.getProfileKeeps(route.params.id)
         await profilesService.getProfileVaults(route.params.id)
       } catch (error) {
@@ -76,6 +77,7 @@ export default {
       }
     })
     return {
+      myProfile: computed(() => AppState.myProfile),
       user: computed(() => AppState.user),
       activeProfile: computed(() => AppState.activeProfile),
       profileKeeps: computed(() => AppState.profileKeeps),

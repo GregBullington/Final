@@ -27,8 +27,9 @@ namespace Final.Services
 
     internal Vault GetById(int id)
     {
+      // REVIEW check if the request is from the creator and if not and it is private return exception 
       Vault vault = _repo.GetById(id);
-      if (vault == null || vault.IsPrivate)
+      if (vault == null)
       {
         throw new Exception("Invalid vault Id");
       }
