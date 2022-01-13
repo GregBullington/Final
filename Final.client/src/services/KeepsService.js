@@ -19,11 +19,10 @@ class KeepsService {
     AppState.profileKeeps = AppState.profileKeeps.filter(k => k.id !== id)
   }
 
-  // async getById(id) {
-  //   const res = await api.get(`api/keeps/${id}`)
-  //   logger.log(res.data)
-  //   AppState.reviews = res.data
-  // }
+  async getKeepById(id) {
+    const res = await api.get(`api/keeps/${id}`)
+    AppState.activeKeep = res.data
+  }
 }
 
 export const keepsService = new KeepsService()

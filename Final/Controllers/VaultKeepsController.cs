@@ -55,6 +55,20 @@ namespace Final.Controllers
       }
     }
 
+    [HttpGet("{id}/keep")]
+    [Authorize]
+    public ActionResult<Keep> GetByKeepId(int id)
+    {
+      try
+      {
+        return Ok(_vks.GetByKeepId(id));
+      }
+      catch (Exception e)
+      {
+        return BadRequest(e.Message);
+      }
+    }
+
 
 
   }

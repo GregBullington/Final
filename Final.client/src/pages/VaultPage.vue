@@ -12,7 +12,7 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-md-2" v-for="k in vaultKeeps" :key="k.id">
+      <div class="col-md-2" v-for="k in vaultKeeps" :key="k.vaultKeepId">
         <Keep :keep="k" />
       </div>
     </div>
@@ -23,7 +23,6 @@
 <script>
 import { computed } from "@vue/reactivity"
 import { AppState } from "../AppState"
-import { profilesService } from "../services/ProfilesService"
 import { useRoute } from "vue-router"
 import { logger } from "../utils/Logger"
 import Pop from "../utils/Pop"

@@ -92,7 +92,7 @@
               >
                 <button
                   class="btn btn-outline-danger p-1"
-                  @click="removeFromVault(keep.vaultKeepId)"
+                  @click="removeFromVault(keep.id)"
                 >
                   Remove
                 </button>

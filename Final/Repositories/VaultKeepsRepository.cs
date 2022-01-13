@@ -46,6 +46,15 @@ namespace Final.Repositories
       return _db.QueryFirstOrDefault<VaultKeep>(sql, new { id });
     }
 
+    internal VaultKeep GetByKeepId(int id)
+    {
+      string sql = @"
+      SELECT * FROM vaultKeeps
+      WHERE keepId = @id LIMIT 1
+      ;";
+      return _db.QueryFirstOrDefault<VaultKeep>(sql, new { id });
+    }
+
     internal void updateKeeps(int id, int num)
     {
       string sql = @"

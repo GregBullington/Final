@@ -35,6 +35,16 @@ namespace Final.Services
       return vaultKeep;
     }
 
+    internal VaultKeep GetByKeepId(int id)
+    {
+      VaultKeep vaultKeep = _repo.GetByKeepId(id);
+      if (vaultKeep == null)
+      {
+        throw new Exception("Invalid keep Id");
+      }
+      return vaultKeep;
+    }
+
     internal void Remove(int id, string userId)
     {
       VaultKeep vaultKeep = GetById(id);

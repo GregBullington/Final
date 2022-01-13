@@ -7,7 +7,6 @@ class VaultsService {
   async createVault(vault) {
     const res = await api.post('api/vaults', vault)
     AppState.profileVaults.push(res.data)
-    logger.log(res.data)
   }
 
   async deleteVault(id) {
@@ -18,13 +17,11 @@ class VaultsService {
   async getVaultKeeps(id) {
     const res = await api.get(`api/vaults/${id}/keeps`)
     AppState.vaultKeeps = res.data
-    logger.log(res.data)
   }
 
   async getVaultById(id) {
     const res = await api.get(`api/vaults/${id}`)
     AppState.activeVault = res.data
-    logger.log(res.data)
   }
 
 

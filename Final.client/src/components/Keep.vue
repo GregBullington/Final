@@ -1,7 +1,7 @@
 <template>
   <div
     class="row"
-    @click="setActive"
+    @click="setActive(keep.id)"
     data-bs-toggle="modal"
     data-bs-target="#detailsModal"
   >
@@ -24,6 +24,7 @@
 <script>
 import { computed } from "@vue/reactivity"
 import { AppState } from "../AppState"
+import { keepsService } from "../services/KeepsService"
 export default {
   props: {
     keep: { type: Object, required: true }
@@ -32,15 +33,16 @@ export default {
     return {
       allKeeps: computed(() => AppState.allKeeps),
 
-      setActive() {
+      async setActive(id) {
         try {
-          AppState.activeKeep = props.keep
+          await keepsService.getKeepById(id)
         } catch (error) {
           logger.error(error)
           Modal.getOrCreateInstance(document.getElementById("detailsModal")).hide()
           Pop.toast("Something went wrong setting active keep!", 'error')
         }
       },
+
 
     }
   }

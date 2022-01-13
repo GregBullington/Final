@@ -43,7 +43,7 @@ namespace Final.Controllers
     [HttpGet("{id}")]
 
 
-    public async Task<ActionResult<Vault>> GetByIdAsyncetById(int id)
+    public async Task<ActionResult<Vault>> GetByIdAsyncById(int id)
     {
       try
       {
