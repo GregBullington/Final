@@ -6,7 +6,11 @@
         <h6>Keeps: {{ vaultKeeps.length }}</h6>
       </div>
       <div class="col-md-6 d-flex justify-content-end align-items-center">
-        <button class="btn btn-outline-danger" @click="deleteVault(vault.id)">
+        <button
+          class="btn btn-outline-danger mb-3"
+          @click="deleteVault(vault.id)"
+          title="Delete Vault"
+        >
           Delete Vault
         </button>
       </div>

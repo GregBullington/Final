@@ -1,6 +1,6 @@
 <template>
   <div class="container-fluid p-5">
-    <div class="row justify-content-around">
+    <div class="row">
       <div v-for="k in allKeeps" :key="k.id" class="col-md-3">
         <Keep :keep="k" />
       </div>
@@ -73,5 +73,10 @@ export default {
       object-position: center;
     }
   }
+}
+
+body {
+  margin: 0;
+  padding: 1rem;
 }
 </style>

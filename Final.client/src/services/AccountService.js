@@ -32,7 +32,11 @@ class AccountService {
       logger.error(error)
       Pop.toast("Could not update!", 'error')
     }
+  }
 
+  async getAccountVaults() {
+    const res = await api.get('account/vaults')
+    AppState.accountVaults = res.data
   }
 }
 

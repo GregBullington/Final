@@ -19,8 +19,13 @@
             data-bs-target="#createVault"
           ></button>
         </h2>
-        <div class="row">
+        <div class="row" v-if="route.params.id !== account.id">
           <div class="col-md-3" v-for="v in profileVaults" :key="v.id">
+            <Vault :vault="v" />
+          </div>
+        </div>
+        <div class="row" v-else>
+          <div class="col-md-3" v-for="v in accountVaults" :key="v.id">
             <Vault :vault="v" />
           </div>
         </div>
@@ -62,21 +67,30 @@ import { logger } from "../utils/Logger"
 import Pop from "../utils/Pop"
 import { useRoute } from "vue-router"
 import { profilesService } from "../services/ProfilesService"
+import { accountService } from "../services/AccountService"
 export default {
   name: 'Account',
   setup() {
+    const account = AppState.account
     const route = useRoute()
     onMounted(async () => {
       try {
+        if (route.params.id === account.id) {
+          await accountService.getAccountVaults()
+        } else {
+          await profilesService.getProfileVaults(route.params.id)
+        }
         await profilesService.setActiveProfile(route.params.id)
         await profilesService.getProfileKeeps(route.params.id)
-        await profilesService.getProfileVaults(route.params.id)
       } catch (error) {
         logger.error(error)
         Pop.toast("Something went wrong!", 'error')
       }
     })
     return {
+      route,
+      accountVaults: computed(() => AppState.accountVaults),
+      account: computed(() => AppState.account),
       myProfile: computed(() => AppState.myProfile),
       user: computed(() => AppState.user),
       activeProfile: computed(() => AppState.activeProfile),

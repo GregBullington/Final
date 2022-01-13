@@ -2,6 +2,7 @@
   <div
     class="row"
     @click="setActive(keep.id)"
+    title="See Details"
     data-bs-toggle="modal"
     data-bs-target="#detailsModal"
   >

@@ -79,6 +79,7 @@
                       <div
                         class="dropdown-item selectable"
                         @click="addToVault(keep.id, v.id)"
+                        title="Add to Vault"
                       >
                         {{ v.name }}
                       </div>
@@ -93,6 +94,7 @@
                 <button
                   class="btn btn-outline-danger p-1"
                   @click="removeFromVault(keep.id)"
+                  title="Remove from Vault"
                 >
                   Remove
                 </button>
@@ -110,6 +112,7 @@
                   v-if="user.id !== keep.creatorId && $route.name == 'Profile'"
                   class="btn mdi mdi-delete-outline text-danger mdi-24px p-0"
                   @click="deleteKeep(keep.id)"
+                  title="Delete Keep"
                 ></button>
               </div>
               <div
@@ -124,6 +127,7 @@
               >
                 <img
                   @click="setActiveProfile(keep.creatorId)"
+                  title="Go to Profile"
                   class="prof-img rounded action"
                   :src="keep.creator.picture"
                   alt="img"
