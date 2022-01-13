@@ -67,9 +67,7 @@
             class="dropdown-menu p-0 list-group w-100"
             aria-labelledby="authDropdown"
           >
-            <router-link
-              :to="{ name: 'Profile', params: { id: myProfile.id } }"
-            >
+            <router-link :to="{ name: 'Profile', params: { id: account.id } }">
               <div class="list-group-item list-group-item-action hoverable">
                 Manage Account
               </div>
@@ -99,6 +97,7 @@ import { computed } from 'vue'
 export default {
   setup() {
     return {
+      account: compted(() => AppState.account),
       user: computed(() => AppState.user),
       myProfile: computed(() => AppState.myProfile),
       async login() {
