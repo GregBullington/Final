@@ -21,6 +21,7 @@ namespace Final.Services
       {
         throw new Exception("Invalid Request!");
       }
+      _repo.updateKeeps(newVaultKeep.KeepId, 1);
       return _repo.Create(newVaultKeep);
     }
 
@@ -42,6 +43,7 @@ namespace Final.Services
         throw new Exception("You cannot Delete this Vault Keep!");
       }
       _repo.Remove(id);
+      _repo.updateKeeps(vaultKeep.KeepId, -1);
     }
 
 

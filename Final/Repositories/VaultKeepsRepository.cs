@@ -46,19 +46,15 @@ namespace Final.Repositories
       return _db.QueryFirstOrDefault<VaultKeep>(sql, new { id });
     }
 
-    // internal List<VaultKeep> GetByCreatorId(string id)
-    // {
-    //   string sql = @"
-    //   SELECT
-    //   vk.*,
-    //   a.*
-    //   FROM vaultKeeps vk
-    //   JOIN accounts a ON vk.creatorId = a.id
-    //   WHERE k.creatorId = @id;";
-    //   return _db.Query<VaultKeep, Profile, VaultKeep>(sql, (keep, prof) =>
-    //   {
-    //     return keep;
-    //   }, new { id }).ToList();
-    // }
+    internal void updateKeeps(int id, int num)
+    {
+      string sql = @"
+    UPDATE keeps
+    SET keeps = keeps + @num
+    WHERE id = @id
+    ;";
+      _db.Execute(sql, new { id, num });
+    }
+
   }
 }

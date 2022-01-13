@@ -27,7 +27,7 @@ namespace Final.Repositories
       {
         keep.Creator = prof;
         return keep;
-      }, new { id }).ToList();
+      }, new { id }, splitOn: "id").ToList();
     }
 
     internal Keep Create(Keep newKeep)
@@ -72,7 +72,7 @@ namespace Final.Repositories
       {
         keep.Creator = prof;
         return keep;
-      }, new { id }).FirstOrDefault();
+      }, new { id }, splitOn: "id").FirstOrDefault();
     }
 
 
@@ -104,19 +104,29 @@ namespace Final.Repositories
     {
       string sql = @"
       SELECT 
-        a.*,
-        k.*
+        k.*,
         vk.id AS vaultKeepId,
+        a.*
       FROM vaultKeeps vk
-      JOIN keeps k ON k.id = vk.keepId
-      JOIN accounts a ON a.id = vk.creatorId
+      JOIN keeps k ON vk.keepId = k.id
+      JOIN accounts a ON vk.creatorId = a.id
       Where vk.vaultId = @id
       ;";
       return _db.Query<VaultKeepViewModel, Profile, VaultKeepViewModel>(sql, (vaultKeep, prof) =>
       {
         vaultKeep.Creator = prof;
         return vaultKeep;
-      }, new { id }).ToList();
+      }, new { id }, splitOn: "id").ToList();
+    }
+
+    internal void updateViews(int id)
+    {
+      string sql = @"
+      UPDATE keeps
+      SET views = views + 1
+      WHERE id = @id
+      ;";
+      _db.Execute(sql, new { id });
     }
   }
 }

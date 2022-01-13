@@ -34,6 +34,8 @@ namespace Final.Services
       {
         throw new Exception("Invalid keep Id");
       }
+      _repo.updateViews(id);
+      keep.Views++;
       return keep;
     }
 
