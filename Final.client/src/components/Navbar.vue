@@ -97,7 +97,7 @@ import { computed } from 'vue'
 export default {
   setup() {
     return {
-      account: compted(() => AppState.account),
+      account: computed(() => AppState.account),
       user: computed(() => AppState.user),
       myProfile: computed(() => AppState.myProfile),
       async login() {

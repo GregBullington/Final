@@ -29,20 +29,21 @@
 <script>
 import { computed } from "@vue/reactivity"
 import { AppState } from "../AppState"
-import { useRoute } from "vue-router"
+import { useRoute, useRouter } from "vue-router"
 import { logger } from "../utils/Logger"
 import Pop from "../utils/Pop"
 import { onMounted } from "@vue/runtime-core"
 import { vaultsService } from "../services/VaultsService"
-import { router } from "../router"
 export default {
   setup() {
+    const router = useRouter()
     const route = useRoute()
     onMounted(async () => {
       try {
         await vaultsService.getVaultById(route.params.id)
         await vaultsService.getVaultKeeps(route.params.id)
       } catch (error) {
+        router.push({ name: 'Home' })
         logger.error(error)
         Pop.toast("Something went wrong!", 'error')
       }

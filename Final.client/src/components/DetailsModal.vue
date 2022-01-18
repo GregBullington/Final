@@ -109,7 +109,9 @@
                 "
               >
                 <button
-                  v-if="user.id !== keep.creatorId && $route.name == 'Profile'"
+                  v-if="
+                    account.id == keep.creatorId && $route.name == 'Profile'
+                  "
                   class="btn mdi mdi-delete-outline text-danger mdi-24px p-0"
                   @click="deleteKeep(keep.id)"
                   title="Delete Keep"
@@ -170,6 +172,7 @@ export default {
       vault,
       state,
       profileVaults: computed(() => AppState.myProfileVaults),
+      account: computed(() => AppState.account),
       user: computed(() => AppState.user),
       keep: computed(() => AppState.activeKeep),
       async setActiveProfile(id) {
